@@ -24,7 +24,7 @@ const SinglePost = () => {
       <Col lg={3} md={2} sm={1} xs={1}></Col>
       <Col lg={6} md={8} sm={10} xs={10}>
         <ListGroup>
-          <ListGroup.Item variant="primary" className="col-headers">
+          <ListGroup.Item variant="success" className="col-headers">
             Posts
           </ListGroup.Item>
           <ListGroup.Item variant="light">

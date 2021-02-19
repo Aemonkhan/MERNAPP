@@ -41,7 +41,7 @@ console.log('i am in useeffect of posts')
       <Col lg={6} md={8} sm={10} xs={10}>
         <p>{msg}</p>
         <ListGroup>
-          <ListGroup.Item variant="primary">
+          <ListGroup.Item variant="success">
             <Row className="col-headers">
               <Col>Name</Col>
               <Col>Description</Col>
@@ -56,7 +56,7 @@ console.log('i am in useeffect of posts')
                 <Col>{item.description}</Col>
                 <Col>
                 <Button 
-                    variant="info"
+                    variant="success"
                     size="sm"
                     as={Link}
                     to={"/single-post/" + item._id}
@@ -64,7 +64,7 @@ console.log('i am in useeffect of posts')
                     View
                   </Button>&nbsp;
                   <Button 
-                    variant="info"
+                    variant="success"
                     size="sm"
                     as={Link}
                     to={"/update-post/" + item._id}

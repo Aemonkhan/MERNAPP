@@ -16,7 +16,7 @@ function Home() {
       .catch((e) => console.log(e));
     setmsg('')
 
-  })
+  },[])
 
   return (
 

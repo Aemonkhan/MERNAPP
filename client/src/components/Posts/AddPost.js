@@ -1,22 +1,36 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ListGroup, Row, Col, Button } from "react-bootstrap";
 import FileBase64 from 'react-file-base64';
 import { useHistory } from 'react-router-dom'
+import { addPost } from "../../store/mainSlice";
 
 function AddPost() {
   const [title, settitle] = useState('')
   const [description, setdescription] = useState('')
   const [img, setimg] = useState('')
+  const [token, settoken] = useState('')
   const history = useHistory();
+  useEffect(() => {
+    const checkOnlineUser = JSON.parse(localStorage.getItem('userData'))
+    if (checkOnlineUser == null) {
+      history.push('/login')
+    } else {
+      let { id, name, email, token } = checkOnlineUser
+      settoken(token)
+      if (!token) history.push('/login')
+    }
+
+  }, [])
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    let newPost = { title, description, img};
-    axios.post('http://localhost:4000/api/posts/add', newPost)
+    let newPost = { title, description, img };
+    axios.post('http://localhost:4000/api/posts/addpost')
       .then(res => {
-                console.log(res)
-                history.push('/posts');
+        console.log('login successful');
+        localStorage.setItem('userData', JSON.stringify(res.data.data))
+
 
       })
       .catch(err => console.log(err, 'error'));
@@ -29,7 +43,7 @@ function AddPost() {
           <Col lg={3} md={2} sm={1} xs={1}></Col>
           <Col lg={6} md={8} sm={10} xs={10}>
             <ListGroup>
-              <ListGroup.Item variant="primary" className="col-headers">
+              <ListGroup.Item variant="success" className="col-headers">
                 New Post
             </ListGroup.Item>
               <ListGroup.Item variant="light">
@@ -50,12 +64,12 @@ function AddPost() {
                   <Col>
                     <FileBase64
                       multiple={false}
-                      onDone={({base64})=>setimg(base64)}
+                      onDone={({ base64 }) => setimg(base64)}
                     />                </Col>
                 </Row>
                 <Row className="my-2">
                   <Col className="text-center">
-                    <Button type='submit' variant="info" size="md">
+                    <Button type='submit' variant="success" size="md">
                       Add
                   </Button>
                   </Col>

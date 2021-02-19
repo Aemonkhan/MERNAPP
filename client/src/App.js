@@ -1,7 +1,6 @@
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-
 import Add from "./components/Users/Add";
 import Users from "./components/Users/Users";
 import Header from "./components/Header";
@@ -11,6 +10,8 @@ import AddPost from "./components/Posts/AddPost";
 import Posts from "./components/Posts/Posts";
 import SinglePost from "./components/Posts/SinglePost";
 import UpdatePost from "./components/Posts/UpdatePost";
+import Logout from "./components/Auth/Logout";
+import Login from "./components/Auth/Login";
 function App() {
   return (
     <Router>
@@ -40,6 +41,12 @@ function App() {
           </Route>
           <Route path="/update-post/:id">
             <UpdatePost />
+          </Route>
+          <Route path="/login">
+            <Login/>
+          </Route>
+          <Route path="/logout">
+            <Logout/>
           </Route>
           <Route path="/">
             <Home />

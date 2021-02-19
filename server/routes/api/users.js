@@ -2,6 +2,9 @@ const express = require("express");
 const User = require("../../models/users.js");
 const router = express.Router();
 var bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+dotenv.config();
 //const users = require('../../Users');
 
 //===========================================Get all users
@@ -137,17 +140,24 @@ router.post('/login', async (req, res) => {
     User.findOne({ email })
       .then(user => {
         console.log(user)
-        bcrypt.compare(pwd, user.pwd).then((isMatch) => {
-          if (!isMatch) return res.status(400).json({ msg: "Invalid credentials" });
-          else {
-            res.json({
-              status: 200,
-              data: user,
-              msg: "login success"
-            })
+        bcrypt.compare(pwd, user.pwd)
+          .then((isMatch) => {
+            if (!isMatch) return res.status(400).json({ msg: "Invalid credentials" });
+            else {
+              jwt.sign({ id: user._id }, process.env.JWT_SECRET, function (err, token) {
+                if (err) return res.json({ status: 400, msg: "no token generated" })
+                let onlineUser = { id: user._id, name: user.name, email: user.email, token }
+                console.log(token);
+                res.json({
+                  status: 200,
+                  data: onlineUser,
+                  msg: "login success",
+                  token
+                })
+              })
 
-          }//else
-        }) //bcypt then
+            }//else
+          }) //bcypt then
         // .catch(err => console.log('.....', err))
       })//usr then
   }//try
@@ -156,4 +166,23 @@ router.post('/login', async (req, res) => {
   }
 }//post
 )
+//....... logout
+router.post('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      res.json({
+        status: 400,
+        msg: "logout failed"
+      })
+    }
+    else {
+      res.json({
+        status: 200,
+        msg: "logout success"
+
+      })
+    }
+  }
+  )
+})
 module.exports = router

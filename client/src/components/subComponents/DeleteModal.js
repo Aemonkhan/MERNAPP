@@ -20,7 +20,7 @@ export default function DeleteModal(props) {
 
     return (
         <div>
-            <Button variant="outlined" onClick={handleClickOpen}>
+            <Button variant=".btn" onClick={handleClickOpen}>
                 Delete
       </Button>
             <Dialog
